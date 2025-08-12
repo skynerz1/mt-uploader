@@ -1,24 +1,11 @@
-import { saveFile } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
-import bytesToSize from "@/lib/size";
-import { APIResponse } from "@/types";
-import * as em from "./messages";
-
-const MAX_SIZE = 1998796928; // 1.9GB;
-const VERCEL_SIZE = 4489824; // 4.5MB;
-
-function returnError(message: any) {
-  return NextResponse.json(message, {
-    status: 403,
-  });
-}
-
 export async function POST(request: NextRequest) {
   const data = await request.formData();
   const file: File | null = data.get("file") as unknown as File;
 
   if (!file) return returnError(em.errorOnFileNotFound);
 
+  // حذف التحقق من reCAPTCHA
+  /*
   const captchaToken = data.get("captchaToken");
 
   const captchaVerificationResponse = await fetch(
@@ -32,6 +19,7 @@ export async function POST(request: NextRequest) {
   if (!captchaVerificationData.success) {
     return returnError(em.errorOnCaptchaVerification);
   }
+  */
 
   try {
     const formData = new FormData();
