@@ -1,18 +1,10 @@
-import { getFile } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
-import * as em from "./messages";
-
-function returnError(message: any) {
-  return NextResponse.json(message, {
-    status: 403,
-  });
-}
-
 export async function POST(request: NextRequest) {
   const data = await request.json();
-  let { id, token } = data;
+  let { id /*, token*/ } = data;
 
   if (!id) return returnError(em.errorOnIDNotFound);
+  // شلنا التحقق من التوكن:
+  /*
   if (!token) return returnError(em.errorOnCaptchaVerification);
 
   const captchaVerificationResponse = await fetch(
@@ -25,6 +17,7 @@ export async function POST(request: NextRequest) {
   if (!captchaVerificationData.success) {
     return returnError(em.errorOnCaptchaVerification);
   }
+  */
 
   try {
     const response = await fetch(
